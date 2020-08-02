@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { AccountCircle, VideoCall, MoreVert, Apps } from "@material-ui/icons";
+import { GlobalContext } from "./GlobalContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,14 +31,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const { appBar, icon, logo } = useStyles();
-
+  const global = React.useContext(GlobalContext);
   return (
     <AppBar color="inherit" className={appBar}>
       <Toolbar>
         <Grid container justify="space-between" alignItems="center">
           <Grid item alignItems="center">
             <Grid container justify="space-between" alignItems="center">
-              <IconButton edge="start" color="inherit" aria-label="menu">
+              <IconButton
+                onClick={global.toggleMenu}
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+              >
                 <MenuIcon />
               </IconButton>
               <img

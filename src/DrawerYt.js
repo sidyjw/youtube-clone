@@ -9,14 +9,19 @@ import {
   Divider,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
+import { Whatshot, Subscriptions, VideoLibrary } from "@material-ui/icons";
+import clsx from "clsx";
+import { GlobalContext } from "./GlobalContext";
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    width: "200px",
+    width: drawerWidth,
     flexShrink: 0,
+    whiteSpace: "nowrap",
   },
   drawerPaper: {
-    width: "200px",
+    width: drawerWidth,
   },
   drawerContainer: {
     overflow: "auto",
@@ -25,38 +30,79 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: 20,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1,
+    },
+  },
+  removeBorderRight: {
+    borderRight: "none",
+  },
+  listItemFontSize: {
+    fontSize: 14,
+  },
+  drawerTopPadding: {
+    paddingTop: theme.spacing(8),
+  },
+  closedDrawerButton: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    "& .MuiListItemIcon-root": {
+      display: "flex",
+      justifyContent: "center",
+    },
+    "& .MuiListItemText-root span": {
+      fontSize: 10,
+    },
+  },
 }));
 
-function DrawerYt({ header }) {
+function DrawerYt() {
   const classes = useStyles();
-
+  const global = React.useContext(GlobalContext);
   return (
     <Drawer
-      className={classes.drawer}
+      className={clsx(classes.drawer, {
+        [classes.drawerOpen]: global.menuIsOpen,
+        [classes.drawerClose]: !global.menuIsOpen,
+      })}
       classes={{
-        paper: classes.drawerPaper,
+        paper: clsx(classes.drawerTopPadding, {
+          [classes.drawerOpen]: global.menuIsOpen,
+          [classes.drawerClose]: !global.menuIsOpen,
+        }),
+        paperAnchorDockedLeft: classes.removeBorderRight,
       }}
       anchor="left"
-      open={true}
-      variant="persistent"
+      variant="permanent"
     >
-      {header}
       <div className={classes.drawerContainer}>
+        {/* <Divider /> */}
         <List>
-          <ListItem button>
-            <ListItemIcon children={<HomeIcon />} />
-            <ListItemText primary={"Inicio"} />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon children={<HomeIcon />} />
-            <ListItemText primary={"Em alta"} />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon children={<HomeIcon />} />
-            <ListItemText primary={"Inscrições"} />
-          </ListItem>
+          <ListItemDrawer text={"Início"} icon={<HomeIcon />} />
+          <ListItemDrawer text="Em alta" icon={<Whatshot />} />
+          <ListItemDrawer text="Inscrições" icon={<Subscriptions />} />
+          {!global.menuIsOpen && (
+            <ListItemDrawer text="Biblioteca" icon={<VideoLibrary />} />
+          )}
         </List>
-        <Divider />
+        {global.menuIsOpen && <Divider />}
         <List>
           {/* {["All mail", "Trash", "Spam"].map((text, index) => (
               <ListItem button key={text}>
@@ -69,6 +115,30 @@ function DrawerYt({ header }) {
         </List>
       </div>
     </Drawer>
+  );
+}
+
+function ListItemDrawer({ text, icon }) {
+  const classes = useStyles();
+  const global = React.useContext(GlobalContext);
+
+  return (
+    <ListItem
+      button
+      classes={{
+        root: clsx({
+          [classes.closedDrawerButton]: !global.menuIsOpen,
+        }),
+      }}
+    >
+      <ListItemIcon children={icon} />
+      <ListItemText
+        classes={{
+          primary: classes.listItemFontSize,
+        }}
+        primary={text}
+      />
+    </ListItem>
   );
 }
 
