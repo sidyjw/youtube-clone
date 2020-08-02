@@ -2,14 +2,16 @@ import React from "react";
 import Home from "./Home";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
-
+import { GlobalProvider } from "./GlobalContext";
 function App() {
   return (
     <>
       <CssBaseline />
-      <ThemeProvider theme={theme}>
-        <Home />
-      </ThemeProvider>
+      <GlobalProvider>
+        <ThemeProvider theme={theme}>
+          <Home />
+        </ThemeProvider>
+      </GlobalProvider>
     </>
   );
 }
