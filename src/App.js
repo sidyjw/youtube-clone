@@ -25,6 +25,9 @@ const theme = createMuiTheme({
       main: "#065fd4",
     },
   },
+  shape: {
+    borderRadius: 2,
+  },
 });
 
 export default App;
