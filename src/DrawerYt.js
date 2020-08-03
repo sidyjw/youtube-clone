@@ -7,9 +7,18 @@ import {
   ListItemText,
   Drawer,
   Divider,
+  Typography,
+  Button,
+  Box,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
-import { Whatshot, Subscriptions, VideoLibrary } from "@material-ui/icons";
+import {
+  Whatshot,
+  Subscriptions,
+  VideoLibrary,
+  History,
+  AccountCircle,
+} from "@material-ui/icons";
 import clsx from "clsx";
 import { GlobalContext } from "./GlobalContext";
 const drawerWidth = 240;
@@ -18,13 +27,9 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap",
   },
   drawerPaper: {
     width: drawerWidth,
-  },
-  drawerContainer: {
-    overflow: "auto",
   },
   content: {
     flexGrow: 1,
@@ -71,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 10,
     },
   },
+  paddingLeftItem: {
+    paddingLeft: theme.spacing(3),
+  },
 }));
 
 function DrawerYt() {
@@ -91,29 +99,46 @@ function DrawerYt() {
       }}
       anchor="left"
       variant="permanent"
+      transitionDuration={0}
     >
-      <div className={classes.drawerContainer}>
-        {/* <Divider /> */}
-        <List>
-          <ListItemDrawer text={"Início"} icon={<HomeIcon />} />
-          <ListItemDrawer text="Em alta" icon={<Whatshot />} />
-          <ListItemDrawer text="Inscrições" icon={<Subscriptions />} />
-          {!global.menuIsOpen && (
-            <ListItemDrawer text="Biblioteca" icon={<VideoLibrary />} />
-          )}
-        </List>
-        {global.menuIsOpen && <Divider />}
-        <List>
-          {/* {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))} */}
-        </List>
-      </div>
+      <List>
+        <ListItemDrawer text={"Início"} icon={<HomeIcon />} />
+        <ListItemDrawer text="Em alta" icon={<Whatshot />} />
+        <ListItemDrawer text="Inscrições" icon={<Subscriptions />} />
+        {!global.menuIsOpen && (
+          <ListItemDrawer text="Biblioteca" icon={<VideoLibrary />} />
+        )}
+      </List>
+      {global.menuIsOpen && (
+        <>
+          <Divider />
+          <List>
+            <ListItemDrawer text="Início" icon={<VideoLibrary />} />
+            <ListItemDrawer text="Histórico" icon={<History />} />
+          </List>
+          <Divider />
+          <Box
+            p="16px 24px"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="flex-start"
+          >
+            <Typography variant="body2">
+              Faça login para curtir vídeos, comentar e se inscrever.
+            </Typography>
+            <Box marginTop="12px" display="flex" justifyContent="flex-start">
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<AccountCircle />}
+              >
+                FAZER LOGIN
+              </Button>
+            </Box>
+          </Box>
+        </>
+      )}
     </Drawer>
   );
 }
@@ -128,6 +153,7 @@ function ListItemDrawer({ text, icon }) {
       classes={{
         root: clsx({
           [classes.closedDrawerButton]: !global.menuIsOpen,
+          [classes.paddingLeftItem]: global.menuIsOpen,
         }),
       }}
     >
