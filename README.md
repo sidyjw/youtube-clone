@@ -21,3 +21,5 @@ Foi aprendido a usar:
 - Customizar os componentes por meio da propriedade ~classes~
 
 - Usar a função clsx() para estilização condicional
+
+- Utilizar os componentes Grid e Hidden para responsividade
