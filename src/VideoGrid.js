@@ -90,7 +90,11 @@ const videos = [
 export default function VideoGrid() {
   return (
     <>
-      <Typography variant="h5" style={{ fontWeight: 800 }}>
+      <Typography
+        variant="h5"
+        style={{ fontWeight: 800 }}
+        style={{ marginBottom: "16px" }}
+      >
         Recomendados
       </Typography>
       <Grid container spacing={1}>
@@ -101,20 +105,30 @@ export default function VideoGrid() {
               display="flex"
               justifyContent="flex-start"
               alignItems="flex-start"
+              marginTop="10px"
             >
               <Box
                 display="flex"
                 justifyContent="flex-start"
                 alignItems="center"
               >
-                <Avatar src={item.avatar} />
+                <Avatar
+                  src={item.avatar}
+                  style={{
+                    marginRight: "12px",
+                  }}
+                />
               </Box>
               <Box>
                 <Typography
                   style={{
                     fontWeight: 600,
-                    lineClamp: 2,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
                     textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    lineHeight: "20px",
                   }}
                   gutterBottom
                   variant="body1"
