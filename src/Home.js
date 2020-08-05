@@ -1,7 +1,7 @@
 import React from "react";
+import { Box, Hidden } from "@material-ui/core";
 import DrawerYt from "./DrawerYt";
 import Header from "./Header";
-import { Grid, Box } from "@material-ui/core";
 import VideoGrid from "./VideoGrid";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -23,7 +23,9 @@ export default function Home() {
         display="flex"
         className={classes.contentTop}
       >
-        <DrawerYt />
+        <Hidden smDown>
+          <DrawerYt />
+        </Hidden>
         <Box p={4}>
           <VideoGrid />
         </Box>
